@@ -1,34 +1,28 @@
 package standprof.qa.steps;
 
-import org.openqa.selenium.WebElement;
-import standprof.qa.base.UiBase;
-import io.cucumber.datatable.DataTable;
-import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import org.junit.Assert;
-import org.junit.Before;
-import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.List;
+import standprof.qa.base.UiBase;
+import standprof.qa.pages.HomePage;
 
 public class HomePageSteps extends UiBase {
-    private final UiBase uiBase;
+
+    private final HomePage homePage;
 
     public HomePageSteps(UiBase uiBase){
-        this.uiBase = uiBase;
-    }
-    @io.cucumber.java.en.Given("^I am on the Home page$")
-    public void iAmOnTheHomePage() {
-        uiBase.driver.get("https://standprof.co.uk");
+        homePage = new HomePage(uiBase.driver);
     }
 
-    @io.cucumber.java.en.Then("^I should see the menu$")
+    @Given("^I am on the Home page$")
+    public void iAmOnTheHomePage() {
+        System.out.format("Thread ID - %2d.\n",
+                Thread.currentThread().getId());
+        homePage.goToHomePage();
+    }
+
+    @Then("^I should see the menu$")
     public void iShouldSeeMenu() {
-        WebElement element = uiBase.driver.findElement(By.className("menu1"));
-        Assert.assertTrue(element.isDisplayed());
+        Assert.assertTrue(homePage.isMenuDisplayed());
     }
 }
